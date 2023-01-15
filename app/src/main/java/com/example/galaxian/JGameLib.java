@@ -999,6 +999,7 @@ public class JGameLib extends View implements SensorEventListener {
     }
 
     public void stopAllWork() {
+        needDraw = false;
         for(Card card : cards) {
             card.stopAllWork();
         }
