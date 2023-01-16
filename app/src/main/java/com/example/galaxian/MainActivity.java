@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
         float t = centerY - cardExplosion.screenRect().height()/2;
         cardExplosion.move(l, t);
         cardExplosion.visible(true);
-        cardExplosion.imageChanging(0,5,1);
+        cardExplosion.imageChanging(1);
     }
 
     // User Event start ====================================
