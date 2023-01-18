@@ -9,18 +9,13 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements JGameLib.GameEvent {
+    Button btnRestart;
     boolean isRunning = false;
     Point screenSize = new Point(100,160);
     JGameLib gameLib = null;
-    JGameLib.Card gameBackground;
-    JGameLib.Card cardAvatar;
-    JGameLib.Card cardExplosion;
-    Button btnRestart;
-    float bulletSize1 = 5;
-    float bulletSpeed = 2;
-    float avatarSize = 10;
-    float evemySize = 15;
-    float enemySpeed = 1.5f;
+    JGameLib.Card gameBackground, cardAvatar, cardExplosion;
+    final float bulletSize1 = 5, bulletSpeed = 2, avatarSize = 10;
+    final float evemySize = 15, enemySpeed = 1.5f;
     ArrayList<JGameLib.Card> enemies = new ArrayList();
 
     @Override
@@ -40,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     }
 
     void initGame() {
-        gameLib.setScreenGrid(screenSize.x, screenSize.y);
         gameLib.listener(this);
+        gameLib.setScreenGrid(screenSize.x, screenSize.y);
         newGame();
     }
 
