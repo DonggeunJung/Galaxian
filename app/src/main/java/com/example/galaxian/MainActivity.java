@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     JGameLib gameLib = null;
     JGameLib.Card gameBackground, cardAvatar, cardExplosion;
     final float bulletSize1 = 5, bulletSpeed = 2, avatarSize = 10;
-    final float evemySize = 15, enemySpeed = 1.5f;
+    final float evemySize = 12, enemySpeed = 1.5f;
     ArrayList<JGameLib.Card> enemies = new ArrayList();
 
     @Override
