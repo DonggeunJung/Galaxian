@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     }
 
     @Override
-    public void onGameTouchEvent(JGameLib.Card card, int action, float blockX, float blockY) {}
+    public void onGameTouchEvent(JGameLib.Card card, int action, float x, float y) {}
 
     @Override
     public void onGameSensor(int sensorType, float x, float y, float z) {}
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     }
 
     @Override
-    public void onGameTimer(int what) {
+    public void onGameTimer() {
         if(enemies.isEmpty()) {
             if(isRunning)
                 stopGame(true);
