@@ -8,48 +8,48 @@ import android.view.View;
 import android.widget.Button;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements JGameLib.GameEvent {
+public class MainActivity extends AppCompatActivity implements Mosaic.GameEvent {
     Button btnRestart;
     boolean isRunning = false;
     Point screenSize = new Point(100,160);
-    JGameLib gameLib = null;
-    JGameLib.Card gameBackground, cardAvatar, cardExplosion;
+    Mosaic mosaic = null;
+    Mosaic.Card gameBackground, cardAvatar, cardExplosion;
     final float bulletSize1 = 5, bulletSpeed = 2, avatarSize = 10;
     final float evemySize = 12, enemySpeed = 1.5f;
-    ArrayList<JGameLib.Card> enemies = new ArrayList();
+    ArrayList<Mosaic.Card> enemies = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnRestart = findViewById(R.id.btnRestart);
-        gameLib = findViewById(R.id.gameLib);
+        mosaic = findViewById(R.id.mosaic);
         initGame();
     }
 
     @Override
     protected void onDestroy() {
-        if (gameLib != null)
-            gameLib.clearMemory();
+        if (mosaic != null)
+            mosaic.clearMemory();
         super.onDestroy();
     }
 
     void initGame() {
-        gameLib.listener(this);
-        gameLib.setScreenGrid(screenSize.x, screenSize.y);
+        mosaic.listener(this);
+        mosaic.setScreenGrid(screenSize.x, screenSize.y);
         newGame();
     }
 
     void newGame() {
         enemies = new ArrayList();
-        gameLib.clearMemory();
-        gameBackground = gameLib.addCard(R.drawable.scroll_back_galaxy);
+        mosaic.clearMemory();
+        gameBackground = mosaic.addCard(R.drawable.scroll_back_galaxy);
         gameBackground.sourceRect(0, 50, 100, 50);
-        cardAvatar = gameLib.addCard(R.drawable.spaceship_up01, 50-avatarSize/2,140,avatarSize,avatarSize);
+        cardAvatar = mosaic.addCard(R.drawable.spaceship_up01, 50-avatarSize/2,140,avatarSize,avatarSize);
         cardAvatar.checkCollision();
         for(int j=10; j <= 30; j+=20) {
             for (int i = 8; i < 90; i += 23) {
-                JGameLib.Card enemy = gameLib.addCard(R.drawable.spaceship_down01, i, j, evemySize, evemySize);
+                Mosaic.Card enemy = mosaic.addCard(R.drawable.spaceship_down01, i, j, evemySize, evemySize);
                 enemy.set(1);
                 enemy.checkCollision();
                 enemy.autoRemove();
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     }
 
     void startGame() {
-        cardExplosion = gameLib.addCard(R.drawable.explosion01,0,0,20,20);
+        cardExplosion = mosaic.addCard(R.drawable.explosion01,0,0,20,20);
         cardExplosion.visible(false);
         cardExplosion.addImage(R.drawable.explosion02);
         cardExplosion.addImage(R.drawable.explosion03);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
 
     void enemyStart() {
         if(enemies.isEmpty()) return;
-        JGameLib.Card enemy = enemies.get(enemies.size()-1);
+        Mosaic.Card enemy = enemies.get(enemies.size()-1);
         enemy.set(2);
         enemy.movingSpeed(80,35, enemySpeed);
     }
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
         gameBackground.sourceRectIng(0, -50, 25);
     }
 
-    void startBulletUp(JGameLib.Card card) {
+    void startBulletUp(Mosaic.Card card) {
         RectF rectMe = card.screenRect();
         float t = rectMe.top - bulletSize1 - 1;
         float l = rectMe.centerX() - (bulletSize1/2);
-        JGameLib.Card bullet = gameLib.addCard(R.drawable.bullet_up01, l, t, bulletSize1, bulletSize1);
+        Mosaic.Card bullet = mosaic.addCard(R.drawable.bullet_up01, l, t, bulletSize1, bulletSize1);
         bullet.checkCollision();
         bullet.autoRemove();
         bullet.movingDir(0, -bulletSpeed);
@@ -94,15 +94,15 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
 
     void startBulletDown() {
         if(enemies.size() < 1) return;
-        JGameLib.Card enemy = enemies.get(enemies.size()-1);
+        Mosaic.Card enemy = enemies.get(enemies.size()-1);
         startBulletDown(enemy);
     }
 
-    void startBulletDown(JGameLib.Card card) {
+    void startBulletDown(Mosaic.Card card) {
         RectF rectMe = card.screenRect();
         float t = rectMe.bottom + 2;
         float l = rectMe.centerX() - (bulletSize1/2);
-        JGameLib.Card bullet = gameLib.addCard(R.drawable.bullet_down01, l, t, bulletSize1, bulletSize1);
+        Mosaic.Card bullet = mosaic.addCard(R.drawable.bullet_down01, l, t, bulletSize1, bulletSize1);
         bullet.checkCollision();
         bullet.autoRemove();
         bullet.movingDir(0, bulletSpeed);
@@ -111,17 +111,17 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     void stopGame(boolean win) {
         isRunning = false;
         btnRestart.setText("Restart");
-        gameLib.stopTimer();
-        gameLib.stopAllWork();
+        mosaic.stopTimer();
+        mosaic.stopAllWork();
         String message = "You loose. Try again";
         if(win)
             message = "Congratulation! You win. Try again";
-        gameLib.popupDialog(null, message, "Close");
+        mosaic.popupDialog(null, message, "Close");
     }
 
-    int findEnemy(JGameLib.Card card) {
+    int findEnemy(Mosaic.Card card) {
         for(int i = enemies.size()-1; i >= 0; i--) {
-            JGameLib.Card enemy = enemies.get(i);
+            Mosaic.Card enemy = enemies.get(i);
             if(enemy == card)
                 return i;
         }
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
         } else {
             isRunning = true;
             btnRestart.setText("Fire");
-            gameLib.startTimer(1.6);
+            mosaic.startTimer(1.6);
             newGame();
             startGame();
         }
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     // Game Event start ====================================
 
     @Override
-    public void onGameWorkEnded(JGameLib.Card card, JGameLib.WorkType workType) {
+    public void onGameWorkEnded(Mosaic.Card card, Mosaic.WorkType workType) {
         switch(workType) {
             case SOURCE_RECT: {
                 if(card == gameBackground) {
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
                         break;
                     case 3:
                         removeEnemy(enemies.size()-1);
-                        gameLib.removeCard(card);
+                        mosaic.removeCard(card);
                         enemyStart();
                         break;
                 }
@@ -213,25 +213,25 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     }
 
     @Override
-    public void onGameTouchEvent(JGameLib.Card card, int action, float x, float y) {}
+    public void onGameTouchEvent(Mosaic.Card card, int action, float x, float y) {}
 
     @Override
     public void onGameSensor(int sensorType, float x, float y, float z) {}
 
     @Override
-    public void onGameCollision(JGameLib.Card card1, JGameLib.Card card2) {
+    public void onGameCollision(Mosaic.Card card1, Mosaic.Card card2) {
         if(card1 == cardAvatar) {
             startExplosion(cardAvatar.screenRect().centerX(), cardAvatar.screenRect().centerY());
             cardAvatar = null;
-            gameLib.removeCard(card1);
-            gameLib.removeCard(card2);
+            mosaic.removeCard(card1);
+            mosaic.removeCard(card2);
         } else {
             int idx = findEnemy(card1);
             if(idx >= 0) {
                 startExplosion(card1.screenRect().centerX(), card1.screenRect().centerY());
                 removeEnemy(idx);
-                gameLib.removeCard(card1);
-                gameLib.removeCard(card2);
+                mosaic.removeCard(card1);
+                mosaic.removeCard(card2);
             }
             int remain = enemies.size();
             if(remain > 0 && enemies.get(remain-1).getInt() <= 1) {
