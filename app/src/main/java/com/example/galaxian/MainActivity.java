@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import java.util.ArrayList;
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements Mosaic.GameEvent 
     }
 
     @Override
-    public void onGameTouchEvent(Mosaic.Card card, int action, float x, float y) {}
+    public void onGameTouchEvent(Mosaic.Card card, int action, float x, float y, MotionEvent event) {}
 
     @Override
     public void onGameSensor(int sensorType, float x, float y, float z) {}
