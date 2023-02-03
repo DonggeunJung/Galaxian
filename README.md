@@ -5,7 +5,7 @@
 [Image1 : Galaxian game first stage]
 
 <div>
-<img src="https://github.com/DonggeunJung/Galaxian/blob/main/Galaxian_Capture01.png?raw=true width="360px" height="600px"></img>
+<img src="https://github.com/DonggeunJung/Galaxian/blob/main/Galaxian_Capture02.png?raw=true width="360px" height="600px"></img>
 </div>
 
 
